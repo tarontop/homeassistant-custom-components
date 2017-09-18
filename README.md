@@ -15,6 +15,7 @@
   **- fan_modes** (Optional*): List of fan modes (default: Low, Mid, High, Auto)<br />
   
 #### Example:
+```
 climate:
   - platform: broadlink
     name: Toyotomi Akira
