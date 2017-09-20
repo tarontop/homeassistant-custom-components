@@ -2,6 +2,7 @@ import asyncio
 import logging
 import binascii
 import socket
+import os.path
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 
@@ -79,8 +80,14 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
         _LOGGER.error("Failed to connect to Broadlink RM Device")
     
     
-    ircodes_ini = ConfigParser()
-    ircodes_ini.read(hass.config.path(config.get(CONF_IRCODES_INI)))
+    ircodes_ini_file = hass.config.path(config.get(CONF_IRCODES_INI))
+    
+    if os.path.exists(ircodes_ini_file):
+        ircodes_ini = ConfigParser()
+        ircodes_ini.read(ircodes_ini_file)
+    else:
+        _LOGGER.error("The ini file was not found. (" + ircodes_ini_file + ")")
+        return
     
     
     async_add_devices([
