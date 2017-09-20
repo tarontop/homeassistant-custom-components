@@ -223,7 +223,10 @@ class BroadlinkIRClimate(ClimateDevice):
 
     def set_operation_mode(self, operation_mode):
         """Set new target temperature."""
-        self._current_operation = operation_mode
+        if operation_mode == 'idle':
+            self._current_operation = 'Off'
+        else:
+            self._current_operation = operation_mode
         
         self.send_ir()
         self.schedule_update_ha_state()
