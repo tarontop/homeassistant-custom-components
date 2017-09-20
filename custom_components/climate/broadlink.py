@@ -80,13 +80,18 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
         _LOGGER.error("Failed to connect to Broadlink RM Device")
     
     
-    ircodes_ini_file = hass.config.path(config.get(CONF_IRCODES_INI))
+    ircodes_ini_file = config.get(CONF_IRCODES_INI)
     
-    if os.path.exists(ircodes_ini_file):
+    if ircodes_ini_file.startswith("/"):
+        ircodes_ini_file = ircodes_ini_file[1:]
+        
+    ircodes_ini_path = hass.config.path(ircodes_ini_file)
+    
+    if os.path.exists(ircodes_ini_path):
         ircodes_ini = ConfigParser()
-        ircodes_ini.read(ircodes_ini_file)
+        ircodes_ini.read(ircodes_ini_path)
     else:
-        _LOGGER.error("The ini file was not found. (" + ircodes_ini_file + ")")
+        _LOGGER.error("The ini file was not found. (" + ircodes_ini_path + ")")
         return
     
     
