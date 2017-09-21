@@ -7,7 +7,9 @@ import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 
 from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA)
-from homeassistant.const import (TEMP_CELSIUS, TEMP_FAHRENHEIT, ATTR_TEMPERATURE, CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, CONF_CUSTOMIZE)
+from homeassistant.const import (ATTR_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, CONF_CUSTOMIZE)
+from homeassistant.helpers.event import (async_track_state_change)
+from homeassistant.core import callback
 from configparser import ConfigParser
 from base64 import b64encode, b64decode
 
@@ -19,6 +21,7 @@ CONF_IRCODES_INI = 'ircodes_ini'
 CONF_MIN_TEMP = 'min_temp'
 CONF_MAX_TEMP = 'max_temp'
 CONF_TARGET_TEMP = 'target_temp'
+CONF_TEMP_SENSOR = 'temp_sensor'
 CONF_OPERATIONS = 'operations'
 CONF_FAN_MODES = 'fan_modes'
 CONF_DEFAULT_OPERATION = 'default_operation'
@@ -49,6 +52,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_MIN_TEMP, default=DEFAULT_MIN_TEMP): cv.positive_int,
     vol.Optional(CONF_MAX_TEMP, default=DEFAULT_MAX_TEMP): cv.positive_int,
     vol.Optional(CONF_TARGET_TEMP, default=DEFAULT_TARGET_TEMP): cv.positive_int,
+    vol.Optional(CONF_TEMP_SENSOR, default=None): cv.entity_id,
     vol.Optional(CONF_CUSTOMIZE, default={}): CUSTOMIZE_SCHEMA,
     vol.Optional(CONF_DEFAULT_OPERATION, default=DEFAULT_OPERATION): cv.string,
     vol.Optional(CONF_DEFAULT_FAN_MODE, default=DEFAULT_FAN_MODE): cv.string
@@ -64,6 +68,7 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     min_temp = config.get(CONF_MIN_TEMP)
     max_temp = config.get(CONF_MAX_TEMP)
     target_temp = config.get(CONF_TARGET_TEMP)
+    temp_sensor_entity_id = config.get(CONF_TEMP_SENSOR)
     operation_list = config.get(CONF_CUSTOMIZE).get(CONF_OPERATIONS, []) or DEFAULT_OPERATION_LIST
     fan_list = config.get(CONF_CUSTOMIZE).get(CONF_FAN_MODES, []) or DEFAULT_FAN_MODE_LIST
     default_operation = config.get(CONF_DEFAULT_OPERATION)
@@ -94,25 +99,26 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
         _LOGGER.error("The ini file was not found. (" + ircodes_ini_path + ")")
         return
     
-    
     async_add_devices([
-        BroadlinkIRClimate(name, broadlink_device, ircodes_ini, min_temp, max_temp, target_temp, operation_list, fan_list, default_operation, default_fan_mode)
+        BroadlinkIRClimate(hass, name, broadlink_device, ircodes_ini, min_temp, max_temp, target_temp, temp_sensor_entity_id, operation_list, fan_list, default_operation, default_fan_mode)
     ])
 
 class BroadlinkIRClimate(ClimateDevice):
 
-    def __init__(self, name, broadlink_device, ircodes_ini, min_temp, max_temp, target_temp, operation_list, fan_list, default_operation, default_fan_mode):
+    def __init__(self, hass, name, broadlink_device, ircodes_ini, min_temp, max_temp, target_temp, temp_sensor_entity_id, operation_list, fan_list, default_operation, default_fan_mode):
                  
         """Initialize the Broadlink IR Climate device."""
+        self.hass = hass
         self._name = name
         
         self._min_temp = min_temp
         self._max_temp = max_temp
         self._target_temperature = target_temp
         self._target_temperature_step = 1
-        self._unit_of_measurement = TEMP_CELSIUS
+        self._unit_of_measurement = hass.config.units.temperature_unit
         
         self._current_temperature = 0
+        self._temp_sensor_entity_id = temp_sensor_entity_id
 
         self._current_operation = default_operation
         self._current_fan_mode = default_fan_mode
@@ -122,6 +128,15 @@ class BroadlinkIRClimate(ClimateDevice):
                 
         self._broadlink_device = broadlink_device
         self._commands_ini = ircodes_ini
+        
+        if temp_sensor_entity_id:
+            async_track_state_change(
+                hass, temp_sensor_entity_id, self._async_temp_sensor_changed)
+                
+            sensor_state = hass.states.get(temp_sensor_entity_id)    
+                
+            if sensor_state:
+                self._async_update_current_temp(sensor_state)
     
     
     def send_ir(self):     
@@ -141,7 +156,28 @@ class BroadlinkIRClimate(ClimateDevice):
                     if retry == DEFAULT_RETRY-1:
                         _LOGGER.error("Failed to send packet to Broadlink RM Device")
         
+    
+    @asyncio.coroutine
+    def _async_temp_sensor_changed(self, entity_id, old_state, new_state):
+        """Handle temperature changes."""
+        if new_state is None:
+            return
+
+        self._async_update_current_temp(new_state)
+        yield from self.async_update_ha_state()
         
+    @callback
+    def _async_update_current_temp(self, state):
+        """Update thermostat with latest state from sensor."""
+        unit = state.attributes.get(ATTR_UNIT_OF_MEASUREMENT)
+
+        try:
+            self._current_temperature = self.hass.config.units.temperature(
+                float(state.state), unit)
+        except ValueError as ex:
+            _LOGGER.error('Unable to update from sensor: %s', ex)    
+
+    
     @property
     def should_poll(self):
         """Return the polling state."""
