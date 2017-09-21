@@ -6,7 +6,7 @@ import os.path
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 
-from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA)
+from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA, STATE_IDLE, STATE_HEAT, STATE_COOL, STATE_AUTO)
 from homeassistant.const import (ATTR_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, CONF_CUSTOMIZE)
 from homeassistant.helpers.event import (async_track_state_change)
 from homeassistant.core import callback
@@ -33,10 +33,10 @@ DEFAULT_RETRY = 3
 DEFAULT_MIN_TEMP = 16
 DEFAULT_MAX_TEMP = 30
 DEFAULT_TARGET_TEMP = 20
-DEFAULT_OPERATION_LIST = ['Off', 'Heat', 'Cool', 'Auto']
-DEFAULT_FAN_MODE_LIST = ['Low', 'Mid', 'High', 'Auto']
-DEFAULT_OPERATION = 'Off'
-DEFAULT_FAN_MODE = 'Auto'
+DEFAULT_OPERATION_LIST = [STATE_IDLE, STATE_HEAT, STATE_COOL, STATE_AUTO]
+DEFAULT_FAN_MODE_LIST = ['low', 'mid', 'high', 'auto']
+DEFAULT_OPERATION = 'idle'
+DEFAULT_FAN_MODE = 'auto'
 
 CUSTOMIZE_SCHEMA = vol.Schema({
     vol.Optional(CONF_OPERATIONS): vol.All(cv.ensure_list, [cv.string]),
@@ -141,7 +141,14 @@ class BroadlinkIRClimate(ClimateDevice):
     
     def send_ir(self):     
         section = self._current_operation.lower()
-        value = self._current_fan_mode.lower() + "_" + str(int(self._target_temperature)) if not section == 'off' else 'off_command'
+        
+        if section == 'off':
+            value = 'off_command'
+        elif section == 'idle':
+            value = 'idle_command'
+        else: 
+            value = self._current_fan_mode.lower() + "_" + str(int(self._target_temperature)) if not section == 'off' else 'off_command'
+        
         command = self._commands_ini.get(section, value)
         
         for retry in range(DEFAULT_RETRY):
@@ -243,7 +250,7 @@ class BroadlinkIRClimate(ClimateDevice):
         if kwargs.get(ATTR_TEMPERATURE) is not None:
             self._target_temperature = kwargs.get(ATTR_TEMPERATURE)
             
-        if self._current_operation.lower() != 'off':
+        if not (self._current_operation.lower() == 'off' or self._current_operation.lower() == 'idle'):
             self.send_ir()
             
         self.schedule_update_ha_state()
@@ -252,17 +259,14 @@ class BroadlinkIRClimate(ClimateDevice):
         """Set new target temperature."""
         self._current_fan_mode = fan
         
-        if self._current_operation.lower() != 'off':
+        if not (self._current_operation.lower() == 'off' or self._current_operation.lower() == 'idle'):
             self.send_ir()
             
         self.schedule_update_ha_state()
 
     def set_operation_mode(self, operation_mode):
         """Set new target temperature."""
-        if operation_mode == 'idle':
-            self._current_operation = 'Off'
-        else:
-            self._current_operation = operation_mode
+        self._current_operation = operation_mode
         
         self.send_ir()
         self.schedule_update_ha_state()
