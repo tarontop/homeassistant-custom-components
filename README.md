@@ -12,8 +12,8 @@
 **target_temp** (Optional): Set initial target temperature. (default: 20)<br />
 **temp_sensor** (Optional): **entity_id** for a temperature sensor, **target_sensor.state must be temperature.**<br />
 **customize** (Optional): List of options to customize.<br />
-  **- operations** (Optional*): List of operation modes (default: Off, Heat, Cool, Auto)<br />
-  **- fan_modes** (Optional*): List of fan modes (default: Low, Mid, High, Auto)<br />
+  **- operations** (Optional*): List of operation modes (default: idle, heat, cool, auto)<br />
+  **- fan_modes** (Optional*): List of fan modes (default: low, mid, high, auto)<br />
   
 #### Example:
 ```
@@ -27,16 +27,16 @@ climate:
     max_temp: 30
     target_temp: 20
     temp_sensor: sensor.living_room_temperature
-    default_operation: 'Off'
+    default_operation: idle
     default_fan_mode: Mid
     customize:
       operations:
-        - 'Off'
-        - Cool
-        - Heat
+        - idle
+        - cool
+        - heat
       fan_modes:
-        - Low
-        - Mid
-        - High
-        - Auto
+        - low
+        - mid
+        - high
+        - auto
 ```
