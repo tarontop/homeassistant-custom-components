@@ -58,7 +58,7 @@ media_player:
     name: Master Bedroom TV
     host: 192.168.1.85
     mac: 'BB:BB:BB:BB:BB:BB'
-    ircodes_ini: 'broadlink_media_codes/philips_tv.ini'
+    ircodes_ini: 'broadlink_media_codes/philips.ini'
 ```
 
 #### How to make your INI Files:
