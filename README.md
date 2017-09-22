@@ -28,7 +28,7 @@ climate:
     target_temp: 20
     temp_sensor: sensor.living_room_temperature
     default_operation: idle
-    default_fan_mode: Mid
+    default_fan_mode: mid
     customize:
       operations:
         - idle
