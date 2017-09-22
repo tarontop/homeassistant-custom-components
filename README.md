@@ -21,7 +21,7 @@ climate:
   - platform: broadlink
     name: Toyotomi Akira
     host: 192.168.1.85
-    mac: 'B4:43:0D:E4:29:4B'
+    mac: 'BB:BB:BB:BB:BB:BB'
     ircodes_ini: 'broadlink_climate_codes/toyotomi_akira.ini'
     min_temp: 16
     max_temp: 30
@@ -39,4 +39,24 @@ climate:
         - mid
         - high
         - auto
+```
+
+
+## Broadlink IR Media Player
+
+#### Configuration variables:
+**name** (Optional): Name of climate component<br />
+**host** (Required): The hostname/IP address of broadlink rm device<br />
+**mac** (Required): Broadlink rm device MAC address<br />
+**timeout** (Optional): Timeout in seconds for the connection to the device<br />
+**ircodes_ini** (Required): The path of ir codes ini file<br />
+
+#### Example:
+```
+media_player:
+  - platform: broadlink
+    name: Master Bedroom TV
+    host: 192.168.1.85
+    mac: 'BB:BB:BB:BB:BB:BB'
+    ircodes_ini: 'broadlink_media_codes/philips_tv.ini'
 ```
