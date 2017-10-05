@@ -12,6 +12,8 @@
 **target_temp** (Optional): Set initial target temperature. (default: 20)<br />
 **temp_sensor** (Optional): **entity_id** for a temperature sensor, **target_sensor.state must be temperature.**<br />
 **customize** (Optional): List of options to customize.<br />
+**default_operation** (Optional): (default: idle)<br />
+**default_fan_mode** (Optional): (default: auto)<br />
   **- operations** (Optional*): List of operation modes (default: idle, heat, cool, auto)<br />
   **- fan_modes** (Optional*): List of fan modes (default: low, mid, high, auto)<br />
   
