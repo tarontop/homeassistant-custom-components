@@ -29,8 +29,8 @@ CONF_RFCODES_INI = 'rfcodes_ini'
 CONF_SPEEDS = 'speeds'
 CONF_DEFAULT_SPEED = 'default_speed'
 CONF_DEFAULT_DIRECTION = 'default_direction'
-DIRECTION_ANTICLOCKWISE = 'forward' #left
-DIRECTION_CLOCKWISE = 'reverse' #right
+DIRECTION_ANTICLOCKWISE = 'left' #forward
+DIRECTION_CLOCKWISE = 'right' #reverse
 
 DEFAULT_NAME = 'Broadlink Fan'
 DEFAULT_TIMEOUT = 10

@@ -72,6 +72,7 @@ media_player:
 **timeout** (Optional): Timeout in seconds for the connection to the device<br />
 **rfcodes_ini** (Required): The path of RF codes ini file<br />
 **default_speed** (Optional): Default fan speed when fan is turned on<br />
+**default_direction** (Optional): Default fan rotation direction when turned on. Possible values are right (clockwise) and left (anti-clockwise). (default: left)<br />
 **customize** (Optional): List of options to customize.<br />
   **- speeds** (Optional*): List of supported speeds (default: low, medium, high)<br />
 
@@ -84,7 +85,7 @@ fan:
     mac: 'BB:BB:BB:BB:BB:BB'
     rfcodes_ini: 'broadlink_fan_codes/living_room_fan.ini'
     default_speed: low
-    defaut_direction: right
+    defaut_direction: left
     customize:
         speeds:
             - low
