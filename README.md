@@ -61,6 +61,38 @@ media_player:
     ircodes_ini: 'broadlink_media_codes/philips.ini'
 ```
 
+
+
+## Broadlink RF Fan
+
+#### Configuration variables:
+**name** (Optional): Name of fan component<br />
+**host** (Required): The hostname/IP address of broadlink rm device<br />
+**mac** (Required): Broadlink rm device MAC address<br />
+**timeout** (Optional): Timeout in seconds for the connection to the device<br />
+**rfcodes_ini** (Required): The path of RF codes ini file<br />
+**default_speed** (Optional): Default fan speed when fan is turned on<br />
+**customize** (Optional): List of options to customize.<br />
+  **- speeds** (Optional*): List of supported speeds (default: low, medium, high)<br />
+
+#### Example:
+```
+fan:
+  - platform: broadlink
+    name: Living Room Fan
+    host: 192.168.1.85
+    mac: 'BB:BB:BB:BB:BB:BB'
+    rfcodes_ini: 'broadlink_fan_codes/living_room_fan.ini'
+    default_speed: low
+    defaut_direction: right
+    customize:
+        speeds:
+            - low
+            - medium
+            - high
+            - highest
+```
+
 #### How to make your INI Files:
 The INI file must have a [general] section and optionally a [sources] section.
 In the [general] section you must fill all keys and values. The keys are: 
