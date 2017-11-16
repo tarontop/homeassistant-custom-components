@@ -52,7 +52,7 @@ climate:
 **mac** (Required): Broadlink rm device MAC address<br />
 **timeout** (Optional): Timeout in seconds for the connection to the device<br />
 **ircodes_ini** (Required): The path of ir codes ini file<br />
-**ircodes_ini** (Optional): The IP address of your TV box. If your TV box has a LAN connection, the component can detect your actual TV state.<br />
+**ping_host** (Optional): The IP address of your TV box. If your TV box has a LAN connection, the component can detect your actual TV state.<br />
 
 #### Example:
 ```
