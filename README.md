@@ -3,8 +3,8 @@
 
 #### Configuration variables:
 **name** (Optional): Name of climate component<br />
-**host** (Required): The hostname/IP address of broadlink rm device<br />
-**mac** (Required): Broadlink rm device MAC address<br />
+**host** (Required): The hostname/IP address of the broadlink rm device<br />
+**mac** (Required): The MAC address of the broadlink rm device <br />
 **timeout** (Optional): Timeout in seconds for the connection to the device<br />
 **ircodes_ini** (Required): The path of ir codes ini file<br />
 **min_temp** (Optional): Set minimum set point available (default: 16)<br />
@@ -48,8 +48,8 @@ climate:
 
 #### Configuration variables:
 **name** (Optional): Name of climate component<br />
-**host** (Required): The hostname/IP address of broadlink rm device<br />
-**mac** (Required): Broadlink rm device MAC address<br />
+**host** (Required): The hostname/IP address of the broadlink rm device<br />
+**mac** (Required): The MAC address of the broadlink rm device<br />
 **timeout** (Optional): Timeout in seconds for the connection to the device<br />
 **ircodes_ini** (Required): The path of ir codes ini file<br />
 **ping_host** (Optional): The IP address of your TV box. If your TV box has a LAN connection, the component can detect your actual TV state.<br />
@@ -93,8 +93,8 @@ My source 2 = ...
 
 #### Configuration variables:
 **name** (Optional): Name of fan component<br />
-**host** (Required): The hostname/IP address of broadlink rm device<br />
-**mac** (Required): Broadlink rm device MAC address<br />
+**host** (Required): The hostname/IP address of the broadlink rm device<br />
+**mac** (Required): The MAC address of the broadlink rm device<br />
 **timeout** (Optional): Timeout in seconds for the connection to the device<br />
 **rfcodes_ini** (Required): The path of RF codes ini file<br />
 **default_speed** (Optional): Default fan speed when fan is turned on<br />
