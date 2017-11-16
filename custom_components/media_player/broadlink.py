@@ -3,6 +3,8 @@ import logging
 import binascii
 import socket
 import os.path
+import platform
+import subprocess as sp
 import voluptuous as vol
 import homeassistant.util as util
 import homeassistant.helpers.config_validation as cv
@@ -22,10 +24,12 @@ REQUIREMENTS = ['broadlink==0.5']
 _LOGGER = logging.getLogger(__name__)
 
 CONF_IRCODES_INI = 'ircodes_ini'
+CONF_PING_HOST = 'ping_host'
 
 DEFAULT_NAME = 'Broadlink IR Media Player'
 DEFAULT_TIMEOUT = 10
 DEFAULT_RETRY = 3
+DEFAULT_PING_TIMEOUT = 1
 
 SUPPORT_BROADLINK_TV = SUPPORT_TURN_OFF | SUPPORT_TURN_ON | \
     SUPPORT_VOLUME_MUTE | SUPPORT_VOLUME_STEP | \
@@ -37,6 +41,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_MAC): cv.string,
     vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.positive_int,
     vol.Required(CONF_IRCODES_INI): cv.string,
+    vol.Optional(CONF_PING_HOST, default=None): cv.string
 })
 
 @asyncio.coroutine 
@@ -70,13 +75,15 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     else:
         _LOGGER.error("The ini file was not found. (" + ircodes_ini_path + ")")
         return
+        
+    ping_host = config.get(CONF_PING_HOST)
     
-    async_add_devices([BroadlinkIRMediaPlayer(hass, name, broadlink_device, ircodes_ini)], True)
+    async_add_devices([BroadlinkIRMediaPlayer(hass, name, broadlink_device, ircodes_ini, ping_host)], True)
     
     
 class BroadlinkIRMediaPlayer(MediaPlayerDevice):
 
-    def __init__(self, hass, name, broadlink_device, ircodes_ini):
+    def __init__(self, hass, name, broadlink_device, ircodes_ini, ping_host):
         self._name = name
         self._state = STATE_OFF
         self._muted = False
@@ -85,6 +92,8 @@ class BroadlinkIRMediaPlayer(MediaPlayerDevice):
         
         self._broadlink_device = broadlink_device
         self._commands_ini = ircodes_ini
+        
+        self._ping_host = ping_host
         
         self._source = None
         
@@ -216,3 +225,15 @@ class BroadlinkIRMediaPlayer(MediaPlayerDevice):
             self.send_ir('sources', source)
             self._source = source
             self.schedule_update_ha_state()
+            
+    def update(self):
+        if self._ping_host:
+            if platform.system().lower() == 'windows':
+                ping_cmd = ['ping', '-n', '1', '-w',
+                            str(DEFAULT_PING_TIMEOUT * 1000), str(self._ping_host)]
+            else:
+                ping_cmd = ['ping', '-c', '1', '-W',
+                            str(DEFAULT_PING_TIMEOUT), str(self._ping_host)]
+
+            status = sp.call(ping_cmd, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
+            self._state = STATE_ON if not bool(status) else STATE_OFF
