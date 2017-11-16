@@ -52,6 +52,7 @@ climate:
 **mac** (Required): Broadlink rm device MAC address<br />
 **timeout** (Optional): Timeout in seconds for the connection to the device<br />
 **ircodes_ini** (Required): The path of ir codes ini file<br />
+**ircodes_ini** (Optional): The IP address of your TV box. If your TV box has a LAN connection, the component can detect your actual TV state.<br />
 
 #### Example:
 ```
@@ -61,6 +62,7 @@ media_player:
     host: 192.168.1.85
     mac: 'BB:BB:BB:BB:BB:BB'
     ircodes_ini: 'broadlink_media_codes/philips.ini'
+    ping_host: 192.168.1.70
 ```
 
 #### How to make your INI Files:
