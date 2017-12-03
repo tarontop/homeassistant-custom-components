@@ -6,7 +6,8 @@ import os.path
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 
-from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA, STATE_IDLE, STATE_HEAT, STATE_COOL, STATE_AUTO)
+from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA, STATE_IDLE, STATE_HEAT, STATE_COOL, STATE_AUTO,
+SUPPORT_OPERATION_MODE, SUPPORT_TARGET_TEMPERATURE)
 from homeassistant.const import (ATTR_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, CONF_CUSTOMIZE)
 from homeassistant.helpers.event import (async_track_state_change)
 from homeassistant.core import callback
@@ -17,6 +18,8 @@ REQUIREMENTS = ['broadlink==0.5']
 
 _LOGGER = logging.getLogger(__name__)
 
+SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
+
 CONF_IRCODES_INI = 'ircodes_ini'
 CONF_MIN_TEMP = 'min_temp'
 CONF_MAX_TEMP = 'max_temp'
@@ -26,8 +29,6 @@ CONF_OPERATIONS = 'operations'
 CONF_FAN_MODES = 'fan_modes'
 CONF_DEFAULT_OPERATION = 'default_operation'
 CONF_DEFAULT_FAN_MODE = 'default_fan_mode'
-
-CONF_DEFAULT_OPERATION_FROM_IDLE = 'default_operation_from_idle'
 
 DEFAULT_NAME = 'Broadlink IR Climate'
 DEFAULT_TIMEOUT = 10
@@ -57,8 +58,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_TEMP_SENSOR, default=None): cv.entity_id,
     vol.Optional(CONF_CUSTOMIZE, default={}): CUSTOMIZE_SCHEMA,
     vol.Optional(CONF_DEFAULT_OPERATION, default=DEFAULT_OPERATION): cv.string,
-    vol.Optional(CONF_DEFAULT_FAN_MODE, default=DEFAULT_FAN_MODE): cv.string,
-    vol.Optional(CONF_DEFAULT_OPERATION_FROM_IDLE, default=None): cv.string
+    vol.Optional(CONF_DEFAULT_FAN_MODE, default=DEFAULT_FAN_MODE): cv.string
 })
 
 @asyncio.coroutine
@@ -76,8 +76,6 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     fan_list = config.get(CONF_CUSTOMIZE).get(CONF_FAN_MODES, []) or DEFAULT_FAN_MODE_LIST
     default_operation = config.get(CONF_DEFAULT_OPERATION)
     default_fan_mode = config.get(CONF_DEFAULT_FAN_MODE)
-    
-    default_operation_from_idle = config.get(CONF_DEFAULT_OPERATION_FROM_IDLE)
     
     import broadlink
     
@@ -105,12 +103,12 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
         return
     
     async_add_devices([
-        BroadlinkIRClimate(hass, name, broadlink_device, ircodes_ini, min_temp, max_temp, target_temp, temp_sensor_entity_id, operation_list, fan_list, default_operation, default_fan_mode, default_operation_from_idle)
+        BroadlinkIRClimate(hass, name, broadlink_device, ircodes_ini, min_temp, max_temp, target_temp, temp_sensor_entity_id, operation_list, fan_list, default_operation, default_fan_mode)
     ])
 
 class BroadlinkIRClimate(ClimateDevice):
 
-    def __init__(self, hass, name, broadlink_device, ircodes_ini, min_temp, max_temp, target_temp, temp_sensor_entity_id, operation_list, fan_list, default_operation, default_fan_mode, default_operation_from_idle):
+    def __init__(self, hass, name, broadlink_device, ircodes_ini, min_temp, max_temp, target_temp, temp_sensor_entity_id, operation_list, fan_list, default_operation, default_fan_mode):
                  
         """Initialize the Broadlink IR Climate device."""
         self.hass = hass
@@ -130,8 +128,6 @@ class BroadlinkIRClimate(ClimateDevice):
         
         self._operation_list = operation_list
         self._fan_list = fan_list
-        
-        self._default_operation_from_idle = default_operation_from_idle
                 
         self._broadlink_device = broadlink_device
         self._commands_ini = ircodes_ini
@@ -252,18 +248,20 @@ class BroadlinkIRClimate(ClimateDevice):
         """Return the list of available fan modes."""
         return self._fan_list
 
+    @property
+    def supported_features(self):
+        """Return the list of supported features."""
+        return SUPPORT_FLAGS
+        
     def set_temperature(self, **kwargs):
         """Set new target temperatures."""
         if kwargs.get(ATTR_TEMPERATURE) is not None:
             self._target_temperature = kwargs.get(ATTR_TEMPERATURE)
             
-            if not (self._current_operation.lower() == 'off' or self._current_operation.lower() == 'idle'):
-                self.send_ir()
-            elif self._default_operation_from_idle is not None:
-                self.set_operation_mode(self._default_operation_from_idle)
-                
-                    
-            self.schedule_update_ha_state()
+        if not (self._current_operation.lower() == 'off' or self._current_operation.lower() == 'idle'):
+            self.send_ir()
+            
+        self.schedule_update_ha_state()
 
     def set_fan_mode(self, fan):
         """Set new target temperature."""
