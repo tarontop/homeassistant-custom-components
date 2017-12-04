@@ -10,7 +10,7 @@
 **min_temp** (Optional): Set minimum set point available (default: 16)<br />
 **max_temp** (Optional): Set maximum set point available (default: 30)<br />
 **target_temp** (Optional): Set initial target temperature. (default: 20)<br />
-**temp_sensor** (Optional): **entity_id** for a temperature sensor, **target_sensor.state must be temperature.**<br />
+**temp_sensor** (Optional): **entity_id** for a temperature sensor, **temp_sensor.state must be temperature.**<br />
 **customize** (Optional): List of options to customize.<br />
 **default_operation** (Optional): (default: idle)<br />
 **default_fan_mode** (Optional): (default: auto)<br />
@@ -53,6 +53,8 @@ climate:
 **timeout** (Optional): Timeout in seconds for the connection to the device<br />
 **ircodes_ini** (Required): The path of ir codes ini file<br />
 **ping_host** (Optional): The IP address of your TV box. If your TV box has a LAN connection, the component can detect your actual TV state.<br />
+**power_consumption_entity** (Optional): **entity_id** for a power consumption sensor. If your TV box can provide the power consumption, the component can detect your actual TV state. If ping_host is set, the component ignores this value.<br />
+**power_consumption_threshold** (Optional)<br />
 
 #### Example:
 ```
