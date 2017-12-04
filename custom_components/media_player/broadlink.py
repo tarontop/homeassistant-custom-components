@@ -16,6 +16,8 @@ from homeassistant.components.media_player import (
 from homeassistant.const import (
     CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_OFF, STATE_ON,
     STATE_PLAYING, STATE_PAUSED, STATE_UNKNOWN, CONF_NAME, CONF_FILENAME)
+from homeassistant.helpers.event import (async_track_state_change)
+from homeassistant.core import callback
 from configparser import ConfigParser
 from base64 import b64encode, b64decode
 
@@ -25,6 +27,8 @@ _LOGGER = logging.getLogger(__name__)
 
 CONF_IRCODES_INI = 'ircodes_ini'
 CONF_PING_HOST = 'ping_host'
+CONF_POWER_CONS_SENSOR = 'power_consumption_entity'
+CONF_POWER_CONS_THRESHOLD = 'power_consumption_threshold'
 
 DEFAULT_NAME = 'Broadlink IR Media Player'
 DEFAULT_TIMEOUT = 10
@@ -41,7 +45,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_MAC): cv.string,
     vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.positive_int,
     vol.Required(CONF_IRCODES_INI): cv.string,
-    vol.Optional(CONF_PING_HOST, default=None): cv.string
+    vol.Optional(CONF_PING_HOST, default=None): cv.string,
+    vol.Optional(CONF_POWER_CONS_SENSOR, default=None): cv.entity_id,
+    vol.Optional(CONF_POWER_CONS_THRESHOLD, default=10): cv.positive_int,
 })
 
 @asyncio.coroutine 
@@ -77,13 +83,15 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
         return
         
     ping_host = config.get(CONF_PING_HOST)
+    power_cons_entity_id = config.get(CONF_POWER_CONS_SENSOR)
+    power_cons_threshold = config.get(CONF_POWER_CONS_THRESHOLD)
     
-    async_add_devices([BroadlinkIRMediaPlayer(hass, name, broadlink_device, ircodes_ini, ping_host)], True)
+    async_add_devices([BroadlinkIRMediaPlayer(hass, name, broadlink_device, ircodes_ini, ping_host, power_cons_entity_id, power_cons_threshold)], True)
     
     
 class BroadlinkIRMediaPlayer(MediaPlayerDevice):
 
-    def __init__(self, hass, name, broadlink_device, ircodes_ini, ping_host):
+    def __init__(self, hass, name, broadlink_device, ircodes_ini, ping_host, power_cons_entity_id, power_cons_threshold):
         self._name = name
         self._state = STATE_OFF
         self._muted = False
@@ -94,6 +102,10 @@ class BroadlinkIRMediaPlayer(MediaPlayerDevice):
         self._commands_ini = ircodes_ini
         
         self._ping_host = ping_host
+        
+        self._current_power_cons = 0
+        self._power_cons_entity_id = power_cons_entity_id
+        self._power_cons_threshold = power_cons_threshold
         
         self._source = None
         
@@ -106,6 +118,45 @@ class BroadlinkIRMediaPlayer(MediaPlayerDevice):
                 sources_list.append(key)
                 
             self._sources_list = sources_list
+            
+        if power_cons_entity_id:
+            async_track_state_change(
+                hass, power_cons_entity_id, self._async_power_cons_sensor_changed)
+                
+            sensor_state = hass.states.get(power_cons_entity_id)    
+                
+            if sensor_state:
+                self._async_update_power_cons(sensor_state)
+                
+    @asyncio.coroutine
+    def _async_power_cons_sensor_changed(self, entity_id, old_state, new_state):
+        """Handle temperature changes."""
+        if new_state is None:
+            return
+
+        self._async_update_power_cons(new_state)
+        yield from self.async_update_ha_state()
+        
+    @callback
+    def _async_update_power_cons(self, state):
+        try:
+            _state = state.state
+            if self.represents_float(_state):
+                self._current_power_cons = float(state.state)
+            else:
+                self._current_power_cons = 0
+        except ValueError as ex:
+            _LOGGER.error('Unable to update from sensor: %s', ex)
+            
+    def represents_float(self, s):
+        try: 
+            float(s)
+            return True
+        except ValueError:
+            return False 
+            
+            
+
 
     def send_ir(self, section, value):
         command = self._commands_ini.get(section, value)
@@ -237,3 +288,5 @@ class BroadlinkIRMediaPlayer(MediaPlayerDevice):
 
             status = sp.call(ping_cmd, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
             self._state = STATE_ON if not bool(status) else STATE_OFF
+        elif self._power_cons_entity_id:
+            self._state = STATE_ON if self._current_power_cons > self._power_cons_threshold else STATE_OFF
