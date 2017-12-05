@@ -11,6 +11,7 @@ SUPPORT_OPERATION_MODE, SUPPORT_TARGET_TEMPERATURE)
 from homeassistant.const import (ATTR_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, CONF_CUSTOMIZE)
 from homeassistant.helpers.event import (async_track_state_change)
 from homeassistant.core import callback
+from homeassistant.helpers.restore_state import async_get_last_state
 from configparser import ConfigParser
 from base64 import b64encode, b64decode
 
@@ -70,7 +71,7 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     name = config.get(CONF_NAME)
     ip_addr = config.get(CONF_HOST)
     mac_addr = binascii.unhexlify(config.get(CONF_MAC).encode().replace(b':', b''))
-    
+      
     min_temp = config.get(CONF_MIN_TEMP)
     max_temp = config.get(CONF_MAX_TEMP)
     target_temp = config.get(CONF_TARGET_TEMP)
@@ -118,7 +119,7 @@ class BroadlinkIRClimate(ClimateDevice):
         """Initialize the Broadlink IR Climate device."""
         self.hass = hass
         self._name = name
-        
+
         self._min_temp = min_temp
         self._max_temp = max_temp
         self._target_temperature = target_temp
@@ -189,10 +190,19 @@ class BroadlinkIRClimate(ClimateDevice):
         unit = state.attributes.get(ATTR_UNIT_OF_MEASUREMENT)
 
         try:
-            self._current_temperature = self.hass.config.units.temperature(
-                float(state.state), unit)
+            _state = state.state
+            if self.represents_float(_state):
+                self._current_temperature = self.hass.config.units.temperature(
+                    float(_state), unit)
         except ValueError as ex:
             _LOGGER.error('Unable to update from sensor: %s', ex)    
+
+    def represents_float(self, s):
+        try: 
+            float(s)
+            return True
+        except ValueError:
+            return False     
 
     
     @property
@@ -285,6 +295,15 @@ class BroadlinkIRClimate(ClimateDevice):
     def set_operation_mode(self, operation_mode):
         """Set new target temperature."""
         self._current_operation = operation_mode
-        
+
         self.send_ir()
         self.schedule_update_ha_state()
+        
+    @asyncio.coroutine
+    def async_added_to_hass(self):
+        state = yield from async_get_last_state(self.hass, self.entity_id)
+        
+        if state is not None:
+            self._target_temperature = state.attributes['temperature']
+            self._current_operation = state.attributes['operation_mode']
+            self._current_fan_mode = state.attributes['fan_mode']
