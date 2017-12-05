@@ -17,6 +17,7 @@ from homeassistant.const import (
     CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_OFF, STATE_ON,
     STATE_PLAYING, STATE_PAUSED, STATE_UNKNOWN, CONF_NAME, CONF_FILENAME)
 from homeassistant.helpers.event import (async_track_state_change)
+from homeassistant.helpers.restore_state import async_get_last_state
 from homeassistant.core import callback
 from configparser import ConfigParser
 from base64 import b64encode, b64decode
@@ -290,3 +291,10 @@ class BroadlinkIRMediaPlayer(MediaPlayerDevice):
             self._state = STATE_ON if not bool(status) else STATE_OFF
         elif self._power_cons_entity_id:
             self._state = STATE_ON if self._current_power_cons > self._power_cons_threshold else STATE_OFF
+            
+    @asyncio.coroutine
+    def async_added_to_hass(self):
+        state = yield from async_get_last_state(self.hass, self.entity_id)
+        
+        if state is not None:
+            self._state = state.state
