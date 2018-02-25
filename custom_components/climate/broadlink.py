@@ -58,11 +58,11 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_MIN_TEMP, default=DEFAULT_MIN_TEMP): cv.positive_int,
     vol.Optional(CONF_MAX_TEMP, default=DEFAULT_MAX_TEMP): cv.positive_int,
     vol.Optional(CONF_TARGET_TEMP, default=DEFAULT_TARGET_TEMP): cv.positive_int,
-    vol.Optional(CONF_TEMP_SENSOR, default=None): cv.entity_id,
+    vol.Optional(CONF_TEMP_SENSOR): cv.entity_id,
     vol.Optional(CONF_CUSTOMIZE, default={}): CUSTOMIZE_SCHEMA,
     vol.Optional(CONF_DEFAULT_OPERATION, default=DEFAULT_OPERATION): cv.string,
     vol.Optional(CONF_DEFAULT_FAN_MODE, default=DEFAULT_FAN_MODE): cv.string,
-    vol.Optional(CONF_DEFAULT_OPERATION_FROM_IDLE, default=None): cv.string
+    vol.Optional(CONF_DEFAULT_OPERATION_FROM_IDLE): cv.string
 })
 
 @asyncio.coroutine
