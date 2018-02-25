@@ -46,8 +46,8 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_MAC): cv.string,
     vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.positive_int,
     vol.Required(CONF_IRCODES_INI): cv.string,
-    vol.Optional(CONF_PING_HOST, default=None): cv.string,
-    vol.Optional(CONF_POWER_CONS_SENSOR, default=None): cv.entity_id,
+    vol.Optional(CONF_PING_HOST): cv.string,
+    vol.Optional(CONF_POWER_CONS_SENSOR): cv.entity_id,
     vol.Optional(CONF_POWER_CONS_THRESHOLD, default=10): cv.positive_int,
 })
 
