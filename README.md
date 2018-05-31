@@ -10,6 +10,7 @@
 **min_temp** (Optional): Set minimum set point available (default: 16)<br />
 **max_temp** (Optional): Set maximum set point available (default: 30)<br />
 **target_temp** (Optional): Set initial target temperature. (default: 20)<br />
+**target_temp_step** (Optional): set target temperature step. (default: 1)<br />
 **temp_sensor** (Optional): **entity_id** for a temperature sensor, **temp_sensor.state must be temperature.**<br />
 **default_operation** (Optional): (default: idle)<br />
 **default_fan_mode** (Optional): (default: auto)<br />
@@ -28,6 +29,7 @@ climate:
     min_temp: 16
     max_temp: 30
     target_temp: 20
+    target_temp_step: 1
     temp_sensor: sensor.living_room_temperature
     default_operation: idle
     default_fan_mode: mid
