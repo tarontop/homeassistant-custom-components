@@ -92,6 +92,13 @@ My source 2 = ...
 .
 ```
 You can combine 2 or more commands separated by a "|" character.
+```
+[sources]
+My source 1 = ...|...
+.
+.
+.
+```
 
 
 ## Broadlink RF Fan
