@@ -35,7 +35,7 @@ climate:
     default_fan_mode: mid
     customize:
       operations:
-        - idle
+        - 'off'
         - cool
         - heat
       fan_modes:
