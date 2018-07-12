@@ -6,8 +6,8 @@ import os.path
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 
-from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA, STATE_IDLE, STATE_HEAT, STATE_COOL, STATE_AUTO,
-SUPPORT_OPERATION_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_FAN_MODE)
+from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA, STATE_OFF, STATE_IDLE, STATE_HEAT, STATE_COOL, STATE_AUTO,
+ATTR_OPERATION_MODE, SUPPORT_OPERATION_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_FAN_MODE)
 from homeassistant.const import (ATTR_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, CONF_CUSTOMIZE)
 from homeassistant.helpers.event import (async_track_state_change)
 from homeassistant.core import callback
@@ -41,9 +41,9 @@ DEFAULT_MIN_TEMP = 16
 DEFAULT_MAX_TEMP = 30
 DEFAULT_TARGET_TEMP = 20
 DEFAULT_TARGET_TEMP_STEP = 1
-DEFAULT_OPERATION_LIST = [STATE_IDLE, STATE_HEAT, STATE_COOL, STATE_AUTO]
+DEFAULT_OPERATION_LIST = [STATE_OFF, STATE_HEAT, STATE_COOL, STATE_AUTO]
 DEFAULT_FAN_MODE_LIST = ['low', 'mid', 'high', 'auto']
-DEFAULT_OPERATION = 'idle'
+DEFAULT_OPERATION = 'off'
 DEFAULT_FAN_MODE = 'auto'
 
 CUSTOMIZE_SCHEMA = vol.Schema({
