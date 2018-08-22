@@ -1,8 +1,8 @@
 ﻿sensor:
   - platform: PhicommTokenGetter
     name: tokengetter
-    phicommAccount : 17602516209
-    phicommPassowrd: Yxytr123
+    phicommAccount : ****************
+    phicommPassowrd: ****************
     tokenPath: '/home/homeassistant/.homeassistant/phicomm_token.txt'
 
 input_boolean:
