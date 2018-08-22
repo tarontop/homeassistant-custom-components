@@ -15,7 +15,7 @@ $(".progress").on("click",".btn-airplayer", function() {
 });
 
 var storage=window.localStorage;
-var authToken = "Yxytr123@";
+var authToken = "*********";
 var timer=null;
 var s=0;
 
