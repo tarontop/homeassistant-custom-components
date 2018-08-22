@@ -1,0 +1,31 @@
+sensor:
+  - platform: command_line
+    name: CPU Temperature
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | multiply(0.001) }}'
+      
+  - platform: api_streams
+  - platform: uptime
+    name: 'Homeassistant在线时间'
+    unit_of_measurement: hours
+
+  - platform: systemmonitor
+    resources:
+    - type: memory_use_percent
+    - type: processor_use
+    
+    
+group:
+ pi:
+  name: 系统状态
+  view: no
+  control: hidden
+  entities:
+   - sensor.homeassistant
+   - sensor.cpu_temperature
+   - sensor.processor_use
+   - sensor.memory_use_percent
+   - sensor.connected_clients
+   - sensor.aiden_battery_level
+   - sensor.aiden_battery_state

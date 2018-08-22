@@ -1,0 +1,139 @@
+- id: '1532412088288'
+  alias: '1'
+  trigger:
+  - at: 06:00
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: switch.dc1_s3_template
+    service: switch.turn_on
+- id: '1532488804086'
+  alias: '2'
+  trigger:
+  - at: 00:00
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: switch.dc1_s3_template
+    service: switch.turn_off
+- id: '1532574611145'
+  alias: '3'
+  trigger:
+  - entity_id: light.light
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: ' media_player.mpd'
+      message: 卧室的灯已打开
+      cache: false
+    service: tts.baidu_say
+- id: '1532598697104'
+  alias: '4'
+  trigger:
+  - entity_id: light.light
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.mpd
+      message: 卧室的灯已关闭
+      cache: false
+    service: tts.baidu_say
+- id: '1532599274237'
+  alias: '5'
+  trigger:
+  - entity_id: switch.dc1_s3_template
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.mpd
+      message: 服务器风扇已打开
+      cache: false
+    service: tts.baidu_say
+- id: '1532599474377'
+  alias: '6'
+  trigger:
+  - entity_id: switch.dc1_s3_template
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.mpd
+      message: 服务器风扇已关闭
+      cache: false
+    service: tts.baidu_say
+- id: '1532609348464'
+  alias: '7'
+  trigger:
+  - entity_id: switch.dc1_s3_template
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: 服务器风扇已打开
+      title: 通知
+    service: notify.notify
+- id: '1532609840434'
+  alias: '8'
+  trigger:
+  - entity_id: switch.dc1_s3_template
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      message: 服务器风扇已关闭
+      title: 通知
+    service: notify.notify
+- id: '1532997800821'
+  alias: '9'
+  trigger:
+  - entity_id: binary_sensor.menci
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: 
+   condition: and
+   conditions:
+    - condition: time 
+      after: '18:00'
+      before: '06:00'
+    - condition: state
+      entity_id: light.light
+      state: 'off'
+  action:
+  - data:
+      entity_id: light.light
+    service: light.turn_on
+  - data:
+      cache: false
+      entity_id: media_player.mpd
+      message: 欢迎主人回家，已自动为您打开卧室的灯
+    service: tts.baidu_say
+- id: '1533104269847'
+  alias: '10'
+  trigger:
+  - entity_id: binary_sensor.menci
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      entity_id: light.light
+    service: light.turn_off

@@ -1,0 +1,11 @@
+panel_iframe:
+  router: 
+   title: router
+   icon: mdi:router-wireless
+   url: http://taron.top:81
+   
+    
+  icon:
+     title: icon
+     icon: mdi:vector-square
+     url: https://materialdesignicons.com/

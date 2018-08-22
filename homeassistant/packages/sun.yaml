@@ -1,0 +1,12 @@
+sensor:
+  - platform: yr
+  
+sun:
+
+group:
+ sun:
+  name: 气象
+  view: no
+  entities: 
+   - sun.sun
+   - sensor.yr_symbol

@@ -1,0 +1,68 @@
+climate:
+  - platform: Galanz
+    name: air_bedroom
+    host: 192.168.2.8
+    mac: '34:EA:34:6F:AD:8D'
+#    ircodes_ini: 'broadlink_climate_codes/daikin_arc452a4.ini'
+    min_temp: 16
+    max_temp: 31
+    target_temp: 20
+    target_sensor: sensor.dht_sensor_temperature
+#    default_operation: 'cool'
+#    customize:
+#      operations:
+#        - 'off'
+#        - cool
+#        - heat
+#        - auto
+#      fan_modes:
+#        - low
+#        - mid
+#        - high
+#        - auto
+
+
+  - platform: midea
+    name: air_livingroom
+    host: 192.168.2.8
+    mac: '34:EA:34:6F:AD:8D'
+#    ircodes_ini: 'broadlink_climate_codes/daikin_arc452a4.ini'
+    min_temp: 16
+    max_temp: 31
+    target_temp: 23
+    target_sensor: sensor.dht_sensor_temperature
+#    default_operation: 'cool'
+#    customize:
+#      operations:
+#        - 'off'
+#        - cool
+#        - heat
+#        - auto
+#      fan_modes:
+#        - low
+#        - mid
+#        - high
+#        - auto
+group:
+ air_bedroom:
+    name: 空调面板
+    view: no
+    entities:
+      - climate.air_bedroom
+
+
+ air_livingroom:
+  name: 空调面板
+  view: no
+  entities:
+    - climate.air_livingroom
+    
+    
+    
+ air_all:
+  name: 空调控制面板
+  view: no
+  entities:
+    - climate.air_bedroom
+    - climate.air_livingroom
+    

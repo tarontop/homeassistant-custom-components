@@ -1,0 +1,9 @@
+tts:
+  - platform: baidu
+    app_id: 11205755
+    api_key: k0klEFRcLmOmoSqWEgbEqncs
+    secret_key: cgOnITx8CE5LCpUezTMmMhI9ejN5OZIQ
+    #speed: 语速，取值0-9，默认为5中语速
+    pitch: 5
+    volume: 15
+    person: 0

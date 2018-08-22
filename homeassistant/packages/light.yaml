@@ -1,0 +1,18 @@
+light:  
+  - platform: mqtt
+    name: "light"
+    state_topic: "stat/L/POWER"
+    command_topic: "cmnd/L/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+    
+    
+    
+group:
+ bedroom_light:
+  name: 卧室灯
+  view: no
+  entities:
+   - light.light

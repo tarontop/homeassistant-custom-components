@@ -1,0 +1,31 @@
+light:   
+  - platform: mqtt
+    name: "switch1"
+    state_topic: "/esp/s1/14"
+    command_topic: "/esp/gpio/14"
+    payload_on: "0"
+    payload_off: "1"
+    qos: 0
+    retain: true
+    
+    
+  - platform: mqtt
+    name: "switch2"
+    state_topic: "/esp/s2/12"
+    command_topic: "/esp/gpio/12"
+    payload_on: "0"
+    payload_off: "1"
+    qos: 0
+    retain: true
+    
+    
+    
+    
+group:
+ ceshi:
+  name: 测试
+  view: no
+ #control: hidden
+  entities:
+    - light.switch1
+    - light.switch2

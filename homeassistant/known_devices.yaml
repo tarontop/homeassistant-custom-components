@@ -1,0 +1,225 @@
+
+34ea346fad8d:
+  hide_if_away: false
+  icon: mdi:remote
+  mac: 34:EA:34:6F:AD:8D
+  name: 遥控
+  picture:
+  track: true
+
+a8be27aa64b4:
+  hide_if_away: false
+  icon: mdi:apple
+  mac: A8:BE:27:AA:64:B4
+  name: iPhone7
+  picture:
+  track: true
+
+18dc56905633:
+  hide_if_away: false
+  icon:
+  mac: 18:DC:56:90:56:33
+  name: 18dc56905633
+  picture:
+  track: false
+
+9810e8662acb:
+  hide_if_away: false
+  icon: mdi:apple
+  mac: 98:10:E8:66:2A:CB
+  name: iPhone7 Plus
+  picture:
+  track: true
+
+646e690125e8:
+  hide_if_away: false
+  icon: mdi:laptop
+  mac: 64:6E:69:01:25:E8
+  name: 电脑
+  picture:
+  track: true
+
+2c3ae847a26b:
+  hide_if_away: false
+  icon: mdi:power-socket-uk
+  mac: 2C:3A:E8:47:A2:6B
+  name: 插排
+  picture:
+  track: true
+
+001d08c43ba5:
+  hide_if_away: false
+  icon: mdi:television
+  mac: 00:1D:08:C4:3B:A5
+  name: 电视
+  picture:
+  track: true
+
+449ef9c96747:
+  hide_if_away: false
+  icon: mdi:cellphone-android
+  mac: 44:9E:F9:C9:67:47
+  name: vivo-Y79
+  picture:
+  track: true
+
+94d02990ef17:
+  hide_if_away: false
+  icon: mdi:cellphone-android
+  mac: 94:D0:29:90:EF:17
+  name: OPPO
+  picture:
+  track: true
+
+000c29ff2410:
+  hide_if_away: false
+  icon: mdi:router-wireless
+  mac: 00:0C:29:FF:24:10
+  name: 软路由
+  picture:
+  track: true
+
+9c99a0ce4fc7:
+  hide_if_away: false
+  icon: mdi:cellphone-android
+  mac: 9C:99:A0:CE:4F:C7
+  name: 红米2A
+  picture:
+  track: true
+
+9c35eb8b9abd:
+  hide_if_away: false
+  icon: mdi:apple
+  mac: 9C:35:EB:8B:9A:BD
+  name: iPhone 5s
+  picture:
+  track: true
+  
+00e90cca70c4:
+  hide_if_away: false
+  icon: mdi:server
+  mac: 00:E9:0C:CA:70:C4
+  name: 服务器
+  picture:
+  track: true
+  
+b827eb527b91:
+  hide_if_away: false
+  icon: mdi:raspberrypi
+  mac: B8:27:EB:52:7B:91
+  name: hassbian
+  picture:
+  track: true
+
+ac7f3e860842:
+  hide_if_away: false
+  icon: mdi:apple
+  mac: AC:7F:3E:86:08:42
+  name: iPhone 4s
+  picture:
+  track: true
+
+
+84f3eb1b41fd:
+  hide_if_away: false
+  icon:
+  mac: 84:F3:EB:1B:41:FD
+  name: 84f3eb1b41fd
+  picture:
+  track: false
+
+84f3eba7d5f9:
+  hide_if_away: false
+  icon:
+  mac: 84:F3:EB:A7:D5:F9
+  name: 84f3eba7d5f9
+  picture:
+  track: false
+
+70788b395b0e:
+  hide_if_away: false
+  icon:
+  mac: 70:78:8B:39:5B:0E
+  name: 70788b395b0e
+  picture:
+  track: false
+
+dc415f65f18b:
+  hide_if_away: false
+  icon:
+  mac: DC:41:5F:65:F1:8B
+  name: dc415f65f18b
+  picture:
+  track: false
+
+b06ebf0f6b4a:
+  hide_if_away: false
+  icon:
+  mac: B0:6E:BF:0F:6B:4A
+  name: b06ebf0f6b4a
+  picture:
+  track: false
+
+544e90e25a9a:
+  hide_if_away: false
+  icon:
+  mac: 54:4E:90:E2:5A:9A
+  name: 544e90e25a9a
+  picture:
+  track: false
+
+promotecachednslocal:
+  hide_if_away: false
+  icon:
+  mac: 58:7A:6A:AF:05:91
+  name: promote.cache-dns.local
+  picture:
+  track: false
+
+promotecachednslocal_2:
+  hide_if_away: false
+  icon:
+  mac: EC:D0:9F:BC:17:27
+  name: promote.cache-dns.local
+  picture:
+  track: false
+
+promotecachednslocal_3:
+  hide_if_away: false
+  icon:
+  mac: C8:F2:30:8A:73:DF
+  name: promote.cache-dns.local
+  picture:
+  track: false
+
+promotecachednslocal_4:
+  hide_if_away: false
+  icon:
+  mac: 1C:77:F6:BD:42:0B
+  name: promote.cache-dns.local
+  picture:
+  track: false
+
+promotecachednslocal_5:
+  hide_if_away: false
+  icon:
+  mac: 34:78:D7:1A:FB:84
+  name: promote.cache-dns.local
+  picture:
+  track: false
+
+promotecachednslocal_6:
+  hide_if_away: false
+  icon:
+  mac: 6A:DB:54:3D:AE:B7
+  name: promote.cache-dns.local
+  picture:
+  track: false
+
+aiden:
+  hide_if_away: false
+  icon:
+  mac:
+  name: aiden
+  picture:
+  track: false

@@ -1,0 +1,11 @@
+media_player:
+  - platform: mpd
+    host: 127.0.0.1
+    
+    
+group:
+ mpd:
+  name: 播放器
+  view: no
+  entities:
+    - media_player.mpd

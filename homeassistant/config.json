@@ -1,0 +1,18 @@
+{
+    "bridge": {
+        "name": "Homebridge",
+        "username": "B8:27:EB:52:7B:91",
+        "port": 51826,
+        "pin": "123-45-678"
+    },
+    "platforms": [{
+        "platform": "HomeAssistant",
+        "name": "HomeAssistant",
+        "host": "http://127.0.0.1:8123",
+        "password": "Yxytr123@",
+        "supported_types": ["automation","script","remote","binary_sensor", "climate", "cover", "fan", "garage_door", "device_tracker", "input_boolean", "light", "lock", "media_player", "rollershutter", "sensor", "scene", "switch","vacuum"],
+		"logging": true,
+        "default_visibility": "visible"
+      }
+   ]
+}

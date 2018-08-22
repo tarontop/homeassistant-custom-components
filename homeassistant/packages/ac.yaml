@@ -1,0 +1,25 @@
+climate:
+   - platform: mqtt
+     name: Study
+     modes:
+      - cool
+      - heat
+      - auto
+      - fan
+      - dry
+      - off
+     swing_modes:
+      - on
+      - off
+     fan_modes:
+      - high
+      - medium
+      - low
+      - auto
+     power_command_topic: "irmqtt/ac/power/set"
+     mode_command_topic: "irmqtt/ac/mode/set"
+     temperature_command_topic: "irmqtt/ac/temperature/set"
+     fan_mode_command_topic: "irmqtt/ac/fan/set"
+     swing_mode_command_topic: "irmqtt/ac/swing/set"
+     min_temp: 16
+     max_temp: 30

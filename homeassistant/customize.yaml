@@ -1,0 +1,89 @@
+switch.dc1:
+  hidden: true
+  homebridge_hidden: true
+switch.dc1_s1:
+  hidden: true
+  homebridge_hidden: true
+switch.dc1_s2:
+  hidden: true
+  homebridge_hidden: true
+switch.dc1_s3:
+  hidden: true
+  homebridge_hidden: true
+sensor.tokengetter:
+  friendly_name: 斐讯Token获取
+input_boolean.phicomm_token_reset:
+  homebridge_hidden: true
+sensor.processor_use:
+  friendly_name: CPU使用率
+sensor.homeassistant:
+  friendly_name: 系统在线时间
+sensor.memory_use_percent:
+  friendly_name: 内存使用率
+sensor.cpu_temperature:
+  friendly_name: CPU 温度
+sensor.connected_clients:
+  friendly_name: 客户端连接
+switch.tv1:
+  friendly_name: 电视
+  homebridge_name: 电视
+  icon: mdi:television-classic
+switch.tv2:
+  friendly_name: 机顶盒
+  homebridge_name: 机顶盒
+  icon: mdi:television-box
+sensor.dht_sensor_temperature:
+  friendly_name: 室内温度
+sensor.dht_sensor_humidity:
+  friendly_name: 室内湿度
+  icon: mdi:water-percent
+sun.sun:
+  friendly_name: 日出日落
+sensor.yr_symbol:
+  friendly_name: 天气
+sensor.dc1_v:
+  icon: mdi:flash
+sensor.aiden_battery_level:
+  friendly_name: 手机电量
+sensor.aiden_battery_state:
+  friendly_name: 电池状态
+camera.usb_camera:
+  friendly_name: 摄像头
+automation.1:
+  friendly_name: 打开服务器风扇
+automation.2:
+  friendly_name: 关闭服务器风扇
+light.light:
+  friendly_name: 灯
+  icon: mdi:ceiling-light
+automation.3:
+  friendly_name: 开灯语音播报
+automation.4:
+  friendly_name: 关灯语音播报
+automation.5:
+  friendly_name: 打开服务器风扇语音播报
+automation.6:
+  friendly_name: 关闭服务器风扇语音播报
+media_player.mpd:
+  homebridge_hidden: true
+automation.7:
+  friendly_name: 打开服务器时通知推送
+automation.8:
+  friendly_name: 关闭服务器时通知推送
+binary_sensor.menci:
+  friendly_name: 门
+  homebridge_name: 门
+  icon: mdi:door-open
+automation.10:
+  friendly_name: 关门关灯
+automation.9:
+  friendly_name: 开门开灯
+climate.air_bedroom:
+  friendly_name: 卧室空调
+  icon: mdi:air-conditioner
+climate.air_livingroom:
+  friendly_name: 客厅空调
+  icon: mdi:air-conditioner
+binary_sensor.renti:
+  friendly_name: 人体感应器
+  homebridge_name: 人体感应器

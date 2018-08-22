@@ -1,0 +1,32 @@
+device_tracker:
+  - platform: nmap_tracker
+    hosts: 192.168.2.1-50
+#    consider_home: 1
+    interval_seconds: 60
+    track_new_devices: false
+#      hostone: 192.168.2.1-50
+#    home_interval: 0.02
+
+
+
+group:
+  tracker:
+    name: 设备追踪
+    view: no 
+    control: hidden
+    entities:
+      - device_tracker.ac7f3e860842
+      - device_tracker.9c35eb8b9abd
+      - device_tracker.a8be27aa64b4
+      - device_tracker.9810e8662acb
+      - device_tracker.449ef9c96747
+      - device_tracker.94d02990ef17
+      - device_tracker.9c99a0ce4fc7
+      - device_tracker.34ea346fad8d
+      - device_tracker.2c3ae847a26b
+      - device_tracker.000c29ff2410
+      - device_tracker.b827eb527b91
+      - device_tracker.00e90cca70c4
+      - device_tracker.646e690125e8
+      - device_tracker.001d08c43ba5
+    

@@ -1,0 +1,25 @@
+switch:
+  - platform: broadlink
+    host: 192.168.2.8
+    mac: '34:EA:34:6F:AD:8D'
+    switches:
+      tv1:
+        friendly_name: " TV1 Power"
+        command_on: 'JgCMAJWVEzcSOBI3ExITEhMSExITEhM3EzcSOBITEhMSExITEhMSExI3ExITEhMSExITEhMSEzcTEhM3EjgSOBI4EjcTNxMABgeWlBI4EjgSOBITEhITEhMSExITNxM3EzcSExITEhMSExITEhMSOBITEhITEhMSExITEhM3ExITNxI4EjgSOBI3EzcTAA0FAAAAAAAAAAAAAAAA'              
+        command_off: 'JgCMAJeTFDYSNxM3ExITEhMSFRATEhM3FDYSOBITFBESExITEhMUEBU1ExITEhUQFBETEhMSFDYSExI4FDYSOBQ1EzcTNxUABgWXkxM3EjcTNxMSExITEhMSFBEUNhI4FDYSExITFBEUERITEhITNxMSExITEhUQExITEhI4FBEUNhI1FTgSNxU1EzcTAA0FAAAAAAAAAAAAAAAA'
+        
+      tv2:
+        friendly_name: " TV2 Power"
+        command_on: 'JgBQAAABKZQUERMTExITNxQSExITEhQSExIVNRY1FRATNxQSExITEhQSExIVNRQ3EzcVEBQ3EzcTNxM3FRETEhUQFjUVEBMSFAAFpwABKUkTAA0FAAAAAAAAAAA='              
+        command_off: 'JgBQAAABK5IUEhMSExIWNRMSFRAUEhUQFBITNxM3ExMTNxMSExMTEhMSFBIVNRM3EzcVERU1EzcUNxM3FRATExMSEzcTExMSEwAFpwABKUoTAA0FAAAAAAAAAAA='
+        
+        
+        
+group:
+ tv:
+  name: 电视控制面板
+  view: no
+  control: hidden
+  entities:
+    - switch.tv1
+    - switch.tv2    

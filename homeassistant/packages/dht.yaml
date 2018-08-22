@@ -1,0 +1,21 @@
+sensor:
+  - platform: dht
+    sensor: DHT11
+    pin: 4
+    temperature_offset: 1
+    humidity_offset: -3
+    monitored_conditions:
+      - temperature
+      - humidity
+      
+      
+group:
+ dht:
+  name: 室内环境
+  control: hidden
+  view: no
+  entities: 
+    - sensor.dht_sensor_temperature
+    - sensor.dht_sensor_humidity 
+    - binary_sensor.menci
+    - binary_sensor.renti

@@ -1,0 +1,13 @@
+camera:
+  - platform: mjpeg
+    mjpeg_url: http://192.168.2.10:8080/?action=stream
+    name: usb_camera
+    
+    
+group:
+  camera:
+    name: 摄像头
+    view: no
+    control: hidden
+    entities:
+      - camera.usb_camera

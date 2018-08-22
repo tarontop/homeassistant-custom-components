@@ -1,0 +1,71 @@
+default_view:
+ name: 小窝
+ view: yes
+ entities:
+   - group.dht
+   - group.weather
+   - group.air_all
+   - group.pi
+   - group.tokengetter
+
+
+   
+bedroom_view:
+ name: 卧室
+ view: yes
+ entities:
+   - group.air_bedroom
+   - group.bedroom_light
+   - group.tv
+   - group.dht
+   - group.dc1
+   - group.camera
+   
+living_room_view:
+ name: 客厅
+ view: yes
+ entities:
+   - group.air_livingroom
+   - group.ceshi
+   - climate.study
+   - group.renti
+   
+device_tracker_view:
+ name: 设备追踪
+ view: yes
+ entities:
+   - group.tracker
+   
+wether_view:
+ name: 天气
+ view: yes
+ entities:
+   - group.weather
+   - group.heweatheraqi
+   - group.hourlyforecast
+   - group.suggestion
+   - group.sun
+
+   
+   
+automations_view:
+ name: 自动化
+ view: yes
+ entities:
+   - automation.1
+   - automation.2
+   - automation.3
+   - automation.4
+   - automation.5
+   - automation.6
+   - automation.7
+   - automation.8
+   - automation.9
+   - automation.10
+   
+   
+player_view:
+ name: 播放器
+ view: yes
+ entities:
+   - group.mpd

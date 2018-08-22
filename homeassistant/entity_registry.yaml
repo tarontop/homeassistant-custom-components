@@ -1,0 +1,15 @@
+sensor.aiden_battery_level:
+  config_entry_id:
+  name:
+  platform: ios
+  unique_id: level_aiden
+sensor.aiden_battery_state:
+  config_entry_id:
+  name:
+  platform: ios
+  unique_id: state_aiden
+switch.espurna_a7d5f9:
+  config_entry_id:
+  name:
+  platform: wemo
+  unique_id: 221703K0A7D5F9
